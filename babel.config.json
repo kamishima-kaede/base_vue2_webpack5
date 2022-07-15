@@ -1,12 +1,13 @@
 {
   "presets": [
+    "@vue/babel-preset-jsx",
     [
       "@babel/preset-env",
       {
         "useBuiltIns": "usage",
-        "corejs": "3.23.3"
+        "corejs": "3.23.4"
       }
     ]
   ],
-  "plugins": ["@babel/plugin-transform-runtime"]
+  "plugins": ["transform-vue-jsx", "@babel/plugin-transform-runtime"]
 }

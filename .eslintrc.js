@@ -5,15 +5,13 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
+  parser:'vue-eslint-parser',
   extends: ['plugin:vue/recommended'],
   parserOptions: {
+    parser:'@babel/eslint-parser',
     ecmaVersion: 'latest'
   },
   plugins: ['vue'],
   rules: {
-    indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always']
   }
 };
