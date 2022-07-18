@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const { merge } = requier('webpack-merge')
+const { merge } = require('webpack-merge')
 const baseWebpackPlugin = require('./webapck.base.config')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
@@ -13,17 +13,17 @@ module.exports = merge(baseWebpackPlugin, {
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
   devServer: {
-    static: {
-      publicPath: ''
-    },
+    // static: {
+    //   publicPath: ''
+    // },
     port: 9991,
     hot: true,
-    open: true
-    // client: {
-    //   logging: 'error',
-    //   overlay: false,
-    //   reconnect: 10
-    // },
+    open: true,
+    client: {
+      logging: 'info',
+      overlay: false,
+      reconnect: 10
+    },
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:3000',
@@ -91,16 +91,15 @@ module.exports = merge(baseWebpackPlugin, {
   plugins: [
     // new webpack.DefinePlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'public/index.html',
       title: '测试环境'
     }),
     new ESLintPlugin({
-      fix: true,
+      fix: false,
       extensions: ['vue', 'js', 'mjs', 'json'],
-      exclude: 'node-modules'
+      exclude: 'node_modules'
     })
   ],
   optimization: {

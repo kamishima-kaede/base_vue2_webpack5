@@ -1,15 +1,15 @@
-const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
-const vueLoaderConfig = require('./vue-loader.config');
+const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const vueLoaderConfig = require('./vue-loader.config')
 
 const resolve = src => {
-  return path.resolve(__dirname, '..', src);
-};
+  return path.resolve(__dirname, '..', src)
+}
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: ['./src/index.js'],
+  entry: ['./src/main.js'],
   output: {
     publicPath: '/', // 修改公共路徑
     filename: '[name].[contenthash].js',
@@ -19,7 +19,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', 'vue'],
     alias: {
-      '@': resolve(src)
+      '@': resolve('src')
     }
   },
   module: {
@@ -43,16 +43,18 @@ module.exports = {
           }
         ]
       },
-      {
-        test: /\.svg$/i,
-        use: ['svg-split-loader'],
-        include: resolve('src/icons'),
-        options: {
-          symbolId: 'icon-[name]'
-        }
-      }
+      // {
+      //   test: /\.svg$/i,
+      //   use: {
+      //     loader: 'svg-split-loader',
+      //     options: {
+      //       symbolId: 'icon-[name]'
+      //     }
+      //   },
+      //   include: resolve('src/icons')
+      // }
     ]
   },
   plugins: [new VueLoaderPlugin(), new NodePolyfillPlugin()],
   target: 'browserslist'
-};
+}

@@ -11,6 +11,9 @@ module.exports = {
     parser:'@babel/eslint-parser',
     ecmaVersion: 'latest'
   },
+  globals:{
+    process: true
+  },
   plugins: ['vue'],
   rules: {
   }

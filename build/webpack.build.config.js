@@ -6,13 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpck-plugin')
+// const CopyWebpackPlugin = require('copy-webpck-plugin')
+// const EnvConfig = require(`../config/${process.env.PROJECT_ENV.trim()}.env`)
 
 const resolve = src => {
   return path.resolve(__dirname, '..', src)
 }
 
-module.exports = merge(baseWebpackPlugin, {
+const buildConfig = merge(baseWebpackPlugin, {
   mode: 'production', // development production
   devtool: false,
   output: {
@@ -77,7 +78,9 @@ module.exports = merge(baseWebpackPlugin, {
     ]
   },
   plugins: [
-    // new webpack.DefinePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': EnvConfig
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'public/index.html',
@@ -108,3 +111,22 @@ module.exports = merge(baseWebpackPlugin, {
     minimizer: ['...', new CssMinimizerPlugin()]
   }
 })
+
+// if (prodectionGzip) {
+//   const CompressionWebpackPlugin = require('compression-webpack-plugin')
+//   buildConfig.plugins.push(
+//     new CompressionWebpackPlugin({
+//       algorithm: 'gzip',
+//       test: new RegExp('\\.(js|css)$'),
+//       threshold: 10240,
+//       minRatio: 0.8
+//     })
+//   )
+// }
+
+// if (BundleAnalyzerReport) {
+//   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+//   buildConfig.plugins.push(new BundleAnalyzerPlugin())
+// }
+
+module.exports = buildConfig
