@@ -1,3 +1,4 @@
+'use strict'
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
@@ -26,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue$/i,
+        test: /\.vue$/,
         include: [resolve('src')],
         use: [
           {

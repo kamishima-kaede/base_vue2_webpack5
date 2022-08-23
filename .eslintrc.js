@@ -5,16 +5,15 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
-  parser:'vue-eslint-parser',
+  parser: 'vue-eslint-parser',
   extends: ['plugin:vue/recommended'],
   parserOptions: {
-    parser:'@babel/eslint-parser',
+    parser: '@babel/eslint-parser',
     ecmaVersion: 'latest'
   },
-  globals:{
+  globals: {
     process: true
   },
   plugins: ['vue'],
-  rules: {
-  }
-};
+  rules: {}
+}

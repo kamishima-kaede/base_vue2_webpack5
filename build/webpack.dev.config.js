@@ -1,9 +1,11 @@
+'use strict'
 const path = require('path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const baseWebpackPlugin = require('./webapck.base.config')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const config = require('../config')
 
 const resolve = src => {
   return path.resolve(__dirname, '..', src)
@@ -11,14 +13,14 @@ const resolve = src => {
 
 module.exports = merge(baseWebpackPlugin, {
   mode: 'development',
-  devtool: 'eval-cheap-module-source-map',
+  devtool: config.dev.devtool,
   devServer: {
     // static: {
     //   publicPath: ''
     // },
-    port: 9991,
+    port: config.dev.port,
     hot: true,
-    open: true,
+    open: config.dev.autoOpenBrowser,
     client: {
       logging: 'info',
       overlay: false,

@@ -1,25 +1,28 @@
+'use strict'
 const path = require('path')
 const webpack = require('webpack')
-const { merge } = requier('webpack-merge')
+const { merge } = require('webpack-merge')
 const baseWebpackPlugin = require('./webapck.base.config')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
-// const CopyWebpackPlugin = require('copy-webpck-plugin')
-// const EnvConfig = require(`../config/${process.env.PROJECT_ENV.trim()}.env`)
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const EnvConfig = require(`../config/${process.env.BUILDENV.trim()}.env`)
+const config = require('../config')
+const utils = require('./utils')
 
-const resolve = src => {
-  return path.resolve(__dirname, '..', src)
-}
+// const resolve = src => {
+//   return path.resolve(__dirname, '..', src)
+// }
 
 const buildConfig = merge(baseWebpackPlugin, {
   mode: 'production', // development production
-  devtool: false,
+  devtool: config.build.devtool,
   output: {
-    publicPath: '/', // 修改公共路徑
-    filename: '[name].[contenthash].js',
-    path: resolve('dist'),
+    path: config.build.assetsRoot,
+    filename: utils.assetPath('js/[name].[contenthash].js'),
+    chunkFilename: utils.assetPath('js/[name].[contenthash].js'),
     clean: true
   },
   module: {
@@ -55,7 +58,7 @@ const buildConfig = merge(baseWebpackPlugin, {
         test: /\.(png|svg|jpg|jpeg|gif|svg)$/i,
         type: 'asset',
         generator: {
-          filename: 'static/asset/images/[name].[hash:7].[ext]'
+          filename: utils.assetPath('static/asset/images/[name].[hash:7].[ext]')
         },
         parser: {
           dataUrlCondition: {
@@ -67,7 +70,7 @@ const buildConfig = merge(baseWebpackPlugin, {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset',
         generator: {
-          filename: 'static/asset/fonts/[name].[hash:7].[ext]'
+          filename: utils.assetPath('static/asset/fonts/[name].[hash:7].[ext]')
         },
         parser: {
           dataUrlCondition: {
@@ -82,19 +85,27 @@ const buildConfig = merge(baseWebpackPlugin, {
       'process.env': EnvConfig
     }),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: config.build.index,
       template: 'public/index.html',
-      title: '生产环境'
+      title: '生产环境',
+      inject: true,
+      minify: true,
+      chunksSortMode: 'auto'
     }),
     new MiniCssExtractPlugin({ filename: 'static/css/[name].[contenthash].css' }),
     new ESLintPlugin({
       fix: false,
       extensions: ['vue', 'js', 'mjs', 'json'],
-      exclude: 'node-modules'
+      exclude: 'node_modules'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../src/static'),
+          to: config.build.assetsSubDirectory + 'static'
+        }
+      ]
     })
-    // new CopyWebpackPlugin({
-    //   patterns: []
-    // })
   ],
   optimization: {
     moduleIds: 'deterministic',
@@ -108,7 +119,7 @@ const buildConfig = merge(baseWebpackPlugin, {
         }
       }
     },
-    minimizer: ['...', new CssMinimizerPlugin()]
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 })
 
