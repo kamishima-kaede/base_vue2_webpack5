@@ -123,21 +123,21 @@ const buildConfig = merge(baseWebpackPlugin, {
   }
 })
 
-// if (prodectionGzip) {
-//   const CompressionWebpackPlugin = require('compression-webpack-plugin')
-//   buildConfig.plugins.push(
-//     new CompressionWebpackPlugin({
-//       algorithm: 'gzip',
-//       test: new RegExp('\\.(js|css)$'),
-//       threshold: 10240,
-//       minRatio: 0.8
-//     })
-//   )
-// }
+if (config.build.prodectionGzip) {
+  const CompressionWebpackPlugin = require('compression-webpack-plugin')
+  buildConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      algorithm: 'gzip',
+      test: new RegExp('\\.(js|css)$'),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
+}
 
-// if (BundleAnalyzerReport) {
-//   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-//   buildConfig.plugins.push(new BundleAnalyzerPlugin())
-// }
+if (config.build.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  buildConfig.plugins.push(new BundleAnalyzerPlugin())
+}
 
 module.exports = buildConfig

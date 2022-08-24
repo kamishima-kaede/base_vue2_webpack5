@@ -22,6 +22,8 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: './',
     assetsPublicPath: ASSETSPUBLICPATH,
-    devtool: false
+    devtool: false,
+    prodectionGzip:true,
+    bundleAnalyzerReport:false
   }
 }
